@@ -7,7 +7,7 @@ const nextConfig = {
   env: {
     GOOGLE_SERVICE_PRIVATE_KEY: process.env.GOOGLE_SERVICE_PRIVATE_KEY,
   },
-  output: "export",
+  // output: "export",
 };
 
 export default withSentryConfig(

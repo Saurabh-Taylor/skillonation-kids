@@ -2,6 +2,7 @@
 import React, { useRef, useState } from "react";
 import { motion } from "framer-motion";
 import emailjs from "@emailjs/browser";
+import { log } from "console";
 
 const slideIn = (
   direction: string,
@@ -64,43 +65,45 @@ const Contact = () => {
   };
 
   const handleSubmit = (e: any) => {
-    e.preventDefault();
-    setLoading(true);
-    console.log(process.env.NEXT_PUBLIC_VITE_APP_EMAILJS_SERVICE_ID);
-    console.log(process.env.NEXT_PUBLIC_VITE_APP_EMAILJS_TEMPLATE_ID);
-    console.log(process.env.NEXT_PUBLIC_VITE_APP_EMAILJS_PUBLIC_KEY);
+  e.preventDefault();
+  setLoading(true);
 
-    emailjs
-      .send(
-        process.env.NEXT_PUBLIC_VITE_APP_EMAILJS_SERVICE_ID || "",
-        process.env.NEXT_PUBLIC_VITE_APP_EMAILJS_TEMPLATE_ID || "",
-        {
-          from_name: form.name,
-          to_name: "Himesh Parashar",
-          from_email: form.email,
-          to_email: "im.himeshparashar@gmail.com",
-          message: form.message,
-        },
-        process.env.NEXT_PUBLIC_VITE_APP_EMAILJS_PUBLIC_KEY
-      )
-      .then(
-        () => {
-          setLoading(false);
-          alert("Thank you. I will get back to you as soon as possible.");
+  console.log(process.env.NEXT_PUBLIC_VITE_APP_EMAILJS_SERVICE_ID);
+  console.log(process.env.NEXT_PUBLIC_VITE_APP_EMAILJS_TEMPLATE_ID);
+  console.log(process.env.NEXT_PUBLIC_VITE_APP_EMAILJS_PUBLIC_KEY);
 
-          setForm({
-            name: "",
-            email: "",
-            message: "",
-          });
-        },
-        (error: any) => {
-          setLoading(false);
-          console.error(error);
-          alert("Ahh, something went wrong. Please try again.");
-        }
-      );
-  };
+  // Send the email using EmailJS
+  var templateParams = {
+  name: 'James',
+  notes: 'Check this out!',
+};
+  emailjs
+    .send(
+      process.env.NEXT_PUBLIC_VITE_APP_EMAILJS_SERVICE_ID || "",
+      process.env.NEXT_PUBLIC_VITE_APP_EMAILJS_TEMPLATE_ID || "",
+      templateParams,
+      process.env.NEXT_PUBLIC_VITE_APP_EMAILJS_PUBLIC_KEY || ""
+    )
+    .then(
+      (response) => {
+        setLoading(false);
+        alert("Thank you. I will get back to you as soon as possible.");
+
+        setForm({
+          name: "",
+          email: "",
+          message: "",
+        });
+        console.log('SUCCESS!', response.status, response.text);
+      },
+      (error: any) => {
+        setLoading(false);
+        console.error(error);
+        alert("Ahh, something went wrong. Please try again.");
+      }
+    );
+};
+
 
   return (
     <div

@@ -1,5 +1,6 @@
 // pages/api/save-form-data.js
 
+import { log } from "console";
 import { google } from "googleapis";
 import { NextApiRequest, NextApiResponse } from "next";
 interface ResponseData {
@@ -11,7 +12,8 @@ export async function POST(req: Request, res: NextApiResponse<ResponseData>) {
     return new Response("Method not allowed", { status: 405 });
   }
   const payload = await req.json();
-
+  console.log("saurabh::",process.env.NEXT_PUBLIC_GOOGLE_CLIENT_EMAIL);
+  
   const clientEmail = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_EMAIL;
   const privateKey =
     process.env.GOOGLE_SERVICE_PRIVATE_KEY?.replace(/\\n/g, "\n") ?? undefined;
